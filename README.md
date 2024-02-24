@@ -1,5 +1,9 @@
 # INTERNSHIP-WORK
 
+IMPORTANT-> The given backend code is executed assuming the is already a local databse is built & make sure to update your database name, password , users name in db.js file
+
+-> in backend is built on my own local database in my laptop make sure u do the same.
+
 GOAL->BACKEND ASSIGNMENT: "E-commerce API with Node js”.
 
 BACKEND ASSIGNMENT: “Ecommerce API with Node js”

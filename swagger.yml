@@ -1,0 +1,315 @@
+openapi: 3.0.0
+info:
+  title: E-commerce API
+  description: API endpoints for managing e-commerce operations
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        "200":
+          description: Successful login
+  /register:
+    post:
+      summary: User registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+              required:
+                - username
+                - password
+                - email
+      responses:
+        "200":
+          description: Successful registration
+  /categories:
+    get:
+      summary: Retrieve a list of categories
+      responses:
+        "200":
+          description: A list of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /products/{categoryId}:
+    get:
+      summary: Retrieve a list of products based on category ID
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          schema:
+            type: integer
+          description: ID of the category
+      responses:
+        "200":
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    price:
+                      type: number
+                    description:
+                      type: string
+                    availability:
+                      type: boolean
+  /products/{productId}:
+    get:
+      summary: Retrieve details of a specific product by ID
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: integer
+          description: ID of the product
+      responses:
+        "200":
+          description: Detailed information of the product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  price:
+                    type: number
+                  description:
+                    type: string
+                  availability:
+                    type: boolean
+  /cart/add:
+    post:
+      summary: Add a product to the user's cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                productId:
+                  type: integer
+                quantity:
+                  type: integer
+              required:
+                - userId
+                - productId
+                - quantity
+      responses:
+        "200":
+          description: Product added to cart successfully
+  /cart/view/{userId}:
+    get:
+      summary: View the user's cart
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID of the user
+      responses:
+        "200":
+          description: Details of the user's cart
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: integer
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: integer
+                        productName:
+                          type: string
+                        quantity:
+                          type: integer
+  /cart/update/{userId}/{productId}:
+    put:
+      summary: Update the quantity of a product in the user's cart
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID of the user
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: integer
+          description: ID of the product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+              required:
+                - quantity
+      responses:
+        "200":
+          description: Cart updated successfully
+  /cart/remove/{userId}/{productId}:
+    delete:
+      summary: Remove a product from the user's cart
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID of the user
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: integer
+          description: ID of the product
+      responses:
+        "200":
+          description: Product removed from cart successfully
+  /order/place-order:
+    post:
+      summary: Place an order with products from the user's cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                products:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      productId:
+                        type: integer
+                      quantity:
+                        type: integer
+              required:
+                - userId
+                - products
+      responses:
+        "200":
+          description: Order placed successfully
+  /order-history/history/{userId}:
+    get:
+      summary: Fetch the order history for an authenticated user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID of the user
+      responses:
+        "200":
+          description: List of orders in the user's history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    orderId:
+                      type: integer
+                    orderDate:
+                      type: string
+  /order-details/{orderId}:
+    get:
+      summary: Retrieve detailed information of a specific order by its ID
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema:
+            type: integer
+          description: ID of the order
+      responses:
+        "200":
+          description: Detailed information of the order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orderId:
+                    type: integer
+                  orderDate:
+                    type: string
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: integer
+                        productName:
+                          type: string
+                        quantity:
+                          type: integer
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
