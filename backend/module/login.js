@@ -33,10 +33,8 @@ router.post('/', (req, res) => {
 
                     const user = {
                         email: req.body.email,
-                        // Other user data...
                     };
                 
-                    // Set session variable
                     req.session.user = user;
                     res.cookie('sessionId', req.session.id, { httpOnly: true });
 

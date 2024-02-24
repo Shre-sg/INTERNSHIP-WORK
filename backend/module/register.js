@@ -31,12 +31,9 @@ router.post('/', async (req, res) => {
             ///this is for cookie
             const user = {
                 email: req.body.email,
-                // Other user data...
             };
-
-            // Set session variable
+            
             req.session.user = user;
-            // Optionally, you can set a cookie to identify the session on the client side
             res.cookie('sessionId', req.session.id, { httpOnly: true });
 
             res.status(201).json({

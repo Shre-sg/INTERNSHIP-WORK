@@ -4,13 +4,14 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'lingaiah60',
-    database: 'TEAM_DATABASE',
+    database: 'INTERNSHIP',
 });
 
 db.connect((err) => {
     if (err) {
       console.error('Error connecting to MySQL:', err);
-    } else {
+    }
+    else{
       console.log('Connected to MySQL database');
     }
 });

@@ -1,7 +1,7 @@
 //start
-const Joi = require('joi');
+const Joi = require('joi');  //for register page 
 const express = require('express');
-const mysql = require('mysql');
+const mysql = require('mysql');  //database
 const cors = require("cors");
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -29,14 +29,11 @@ app.use(session({
     saveUninitialized: true,
 }));
 
-
-
-//content
+//define my routes
 app.get('/', (req, res)=> {
     res.send('Hello World');
 });
 
-//content.login
 app.use('/login', loginRoutes);
 app.use('/register', registerRouter);
 app.use('/categories', categoriesRouter);
@@ -48,13 +45,11 @@ app.use('/order-history', orderHistoryRouter);
 app.use('/order-details', orderDetailsRouter); 
 
 app.post('/logout', (req, res) => {
-    // Destroy the session to log the user out
+    // Destroy-ing the session to log the user out
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ message: 'Error during logout' });
         }
-
-        // Clear localStorage on the client side
         res.json({ message: 'Logout successful', clearLocalStorage: true });
     });
 });

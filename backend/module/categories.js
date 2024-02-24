@@ -1,19 +1,20 @@
-// categories.js
-
 const express = require('express');
 const router = express.Router();
-const db = require('./db'); // Import your database connection
+const db = require('./db'); 
 
-// Category Listing Endpoint
+// Category List
 router.get('/', (req, res) => {
+  
   // Fetch categories from the database
   db.query('SELECT * FROM categories', (error, results) => {
     if (error) {
       console.error('Error fetching categories:', error);
       res.status(500).json({ error: 'Internal Server Error' });
-    } else {
+    } 
+    else {
       res.status(200).json(results);
     }
+  
   });
 });
 
