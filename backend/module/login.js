@@ -23,6 +23,7 @@ router.post('/', (req, res) => {
         if (result.length > 0) {
             const hashedPassword = result[0].PASSWORD;
 
+            //checking if password is correct or not
             bcrypt.compare(password, hashedPassword, (err, isMatch) => {
                 if (err) {
                     return res.status(500).json({ msg: err });

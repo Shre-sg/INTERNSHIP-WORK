@@ -6,11 +6,13 @@ const Joi = require('joi');
 
 const saltRounds = 10;
 
+//checking for valid email id
 const registerSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
 });
 
+//register endpoint
 router.post('/', async (req, res) => {
     try {
         const email = req.body.email;
@@ -24,6 +26,7 @@ router.post('/', async (req, res) => {
         const [rows] = await db.promise().query('SELECT * FROM LOGIN WHERE EMAIL = ?', [email]);
 
         if (rows.length === 0) {
+            //hashing user's password
             const hash = await bcrypt.hash(password, saltRounds);
 
             await db.promise().query('INSERT INTO LOGIN (EMAIL, PASSWORD) VALUES (?, ?)', [email, hash]);
